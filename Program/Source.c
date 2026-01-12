@@ -34,7 +34,14 @@ int main()
 	{
 		if (GetAsyncKeyState(VK_SPACE) & 0x0001)
 		{
-			printf("%s\n", dialog[n]);
+			if (n % 2 == 0)
+			{
+				printf("[ÀÇ·ÚÀÎ] %s\n", dialog[n]);
+			}
+			else
+			{
+				printf("[Å½  Á¤] %s\n", dialog[n]);
+			}
 			n++;
 		}
 	}
