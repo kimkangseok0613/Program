@@ -30,7 +30,7 @@ int main()
 	// 0x8000 : 이전에 누른 적이 없고 호출 시점에는 눌려있는 상태
 	// 0x8001 : 이전에 누른 적이 있고 호출 시점에도 눌려있는 상태
 	int n = 0;
-	while (n < SIZE) 
+	while (n < SIZE)
 	{
 		if (GetAsyncKeyState(VK_SPACE) & 0x0001)
 		{
