@@ -1,9 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Administrator\\Desktop\\Program\\Program\\",
+  "WorkspaceRootPath": "C:\\Users\\User\\Desktop\\Program\\Program\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{50B6F2C9-3755-4E85-BDE6-05F16F171AD1}|Program.vcxproj|C:\\Users\\Administrator\\Desktop\\Program\\Program\\Source.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "AbsoluteMoniker": "D:0:0:{50B6F2C9-3755-4E85-BDE6-05F16F171AD1}|Program.vcxproj|C:\\Users\\User\\Desktop\\Program\\Program\\Source.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{50B6F2C9-3755-4E85-BDE6-05F16F171AD1}|Program.vcxproj|solutionrelative:Source.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
@@ -14,17 +14,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Source.c",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\Program\\Program\\Source.c",
+              "DocumentMoniker": "C:\\Users\\User\\Desktop\\Program\\Program\\Source.c",
               "RelativeDocumentMoniker": "Source.c",
-              "ToolTip": "C:\\Users\\Administrator\\Desktop\\Program\\Program\\Source.c",
+              "ToolTip": "C:\\Users\\User\\Desktop\\Program\\Program\\Source.c",
               "RelativeToolTip": "Source.c",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAIwC8AAAAEAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAC8AAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2026-01-12T11:10:59.108Z",
               "EditorCaption": ""
