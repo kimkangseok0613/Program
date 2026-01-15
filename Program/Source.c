@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #define SIZE 1000
 
@@ -51,8 +52,10 @@ int main()
 
 	rewind(file);
 
-	char buffer[SIZE] = { NULL }; // buffer[] == *buffer
+	// char buffer[SIZE] = { NULL }; // buffer[] == *buffer
 	// char buffer[10000] = { NULL }; || char buffer[10000] = { 0, };
+
+	char* buffer = malloc(count + 1);
 
 	// fread( [1], [2], [3], [4])
 	// [1] 읽을 데이터를 저장할 메모리 버퍼의 포인터 변수
@@ -60,9 +63,11 @@ int main()
 	// [3] 데이터를 읽어올 항목의 수
 	// [4] 데이터를 읽어올 파일의 포인터 변수
 
-	fread(buffer, sizeof(char), sizeof(buffer), file);
+	fread(buffer, sizeof(char), count, file);
 
 	printf("%s", buffer);
+
+	free(buffer);
 
 	fclose(file);
 	
