@@ -1,7 +1,58 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define SIZE 1000
+// #define SIZE 1000
+
+void load(const char* filename)
+{
+	FILE* file = fopen(filename, "r");
+
+	// long size = 0;
+
+	// 파일 포인터를 파일 끝으로 이동시킵니다.
+	// fseek(file, 0, SEEK_END);
+
+	// END_OF_FILE (EOF)
+	int character = '\0';
+	int count = 0;
+
+	// 파일의 끝이 아니면 count값을 증가시킵니다.
+
+	// while (character != EOF) // count : 52
+	// {
+	// 	character = fgetc(file); // EOF
+	// 	count++;
+	// } //(X)
+	while ((character = fgetc(file)) != EOF) // count : 51
+	{
+		count++;
+	}
+
+	// printf("count : %d\n", count); // 51
+
+	rewind(file);
+
+	// char buffer[SIZE] = { NULL }; // buffer[] == *buffer
+	// char buffer[10000] = { NULL }; || char buffer[10000] = { 0, };
+
+	char* buffer = malloc(count + 1);
+
+	buffer[count] = NULL;
+
+	// fread( [1], [2], [3], [4])
+	// [1] 읽을 데이터를 저장할 메모리 버퍼의 포인터 변수
+	// [2] 각 데이터 항목의 크기
+	// [3] 데이터를 읽어올 항목의 수
+	// [4] 데이터를 읽어올 파일의 포인터 변수
+
+	fread(buffer, sizeof(char), count, file);
+
+	printf("%s", buffer);
+
+	fclose(file);
+
+	free(buffer);
+}
 
 int main()
 {
@@ -25,55 +76,10 @@ int main()
 
 #pragma region 파일 읽기
 
-	FILE* file = fopen("data.txt", "r");
-
-	long size = 0;
-
-	// 파일 포인터를 파일 끝으로 이동시킵니다.
-	// fseek(file, 0, SEEK_END);
-
-	// END_OF_FILE (EOF)
-	char character = NULL;
-	int count = 0;
-
-	// 파일의 끝이 아니면 count값을 증가시킵니다.
-
-	// while (character != EOF) // count : 52
-	// {
-	// 	character = fgetc(file); // EOF
-	// 	count++;
-	// } //(X)
-	while ((character = fgetc(file)) != EOF) // count : 51
-	{
-		count++;
-	}
-
-	printf("count : %d\n", count); // 51
-
-	rewind(file);
-
-	// char buffer[SIZE] = { NULL }; // buffer[] == *buffer
-	// char buffer[10000] = { NULL }; || char buffer[10000] = { 0, };
-
-	char* buffer = malloc(count + 1);
-
-	// fread( [1], [2], [3], [4])
-	// [1] 읽을 데이터를 저장할 메모리 버퍼의 포인터 변수
-	// [2] 각 데이터 항목의 크기
-	// [3] 데이터를 읽어올 항목의 수
-	// [4] 데이터를 읽어올 파일의 포인터 변수
-
-	fread(buffer, sizeof(char), count, file);
-
-	printf("%s", buffer);
-
-	free(buffer);
-
-	fclose(file);
-	
+	//load("Resources/Pachirisu.txt");
 
 #pragma endregion
-
+	
 #pragma endregion
 
 	return 0;
