@@ -1,0 +1,5 @@
+﻿  Source.c
+C:\Users\Administrator\Desktop\Program\Gomoku\Source.c(61,1): warning C4716: 'drawMap': 값을 반환해야 합니다.
+C:\Users\Administrator\Desktop\Program\Gomoku\Source.c(12,1): warning C4716: 'Position': 값을 반환해야 합니다.
+C:\Users\Administrator\Desktop\Program\Gomoku\Source.c(28,1): warning C4716: 'drawStone': 값을 반환해야 합니다.
+  Gomoku.vcxproj -> C:\Users\Administrator\Desktop\Program\Program\x64\Debug\Gomoku.exe
