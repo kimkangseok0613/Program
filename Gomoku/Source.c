@@ -7,8 +7,10 @@
 #define MAP_X_1 2 + 2 * x
 #define MAP_Y_1 1 + y
 #define SIZE 15
+#define BLACK 1
+#define WHITE 2
 
-int board[20][20] = { 0 };
+int board[SIZE][SIZE] = { 0 };
 
 int Position(int x, int y)
 {
@@ -23,12 +25,12 @@ int drawStone(int x, int y,int count)
 	if (count % 2 == 1)
 	{
 		DRAW_BLACK_STONE // 흑
-			board[x][y] = 1;			
+			board[x][y] = BLACK;
 	}
 	else
 	{
 		DRAW_WHITE_STONE // 백
-			board[x][y] = 2;
+			board[x][y] = WHITE;
 	}
 	return 0;
 }
@@ -69,12 +71,12 @@ int drawMap()
 
 int main()
 {
-	 printf("[오목]\n\n");
-	 printf("1. 흑과 백이 번갈아가면서 돌을 둔다.\n\n");
-	 printf("2. 한쪽이 가로, 세로, 대각선으로 5개를 연결하면 게임 종료\n\n");
-	 printf("[Enter] 게임 시작");
-	 _getch();
-	 system("cls");
+	 // printf("[오목]\n\n");
+	 // printf("1. 흑과 백이 번갈아가면서 돌을 둔다.\n\n");
+	 // printf("2. 한쪽이 가로, 세로, 대각선으로 5개를 연결하면 게임 종료\n\n");
+	 // printf("[Enter] 게임 시작");
+	 // _getch();
+	 // system("cls");
 	 
 
 	int x=0;
@@ -94,7 +96,7 @@ int main()
 		{
 			printf("백의 차례입니다.\n");
 		}
-		printf("x y의 값을 입력해주세요.[x y]\n");
+		printf("x y 값을 입력해주세요.[x y]\n");
 		printf("\r                            \r");
 		scanf_s("%d %d", &x,&y);
 		printf("x : %d, y : %d           ", x, y);
