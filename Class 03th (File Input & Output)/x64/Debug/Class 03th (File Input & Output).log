@@ -1,0 +1,3 @@
+﻿  Source.c
+C:\Users\User\Desktop\Program\Class 03th (File Input & Output)\Source.c(40,16): warning C4047: '=': 'char'의 간접 참조 수준이 'void *'과(와) 다릅니다.
+  Class 03th (File Input & Output).vcxproj -> C:\Users\User\Desktop\Program\Program\x64\Debug\Class 03th (File Input & Output).exe
