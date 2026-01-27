@@ -1,13 +1,25 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <Windows.h>
 #include <conio.h>
 
 #define SIZE 15
 #define BLACK 1
 #define WHITE 2
-#define SPACE 0
+#define	SPACE 0
 
 int board[SIZE][SIZE] = { 0 };
+
+int initialize()
+{
+	for (int i = 0; i < SIZE; i++)
+	{
+		for (int j = 0; j < SIZE; j++)
+		{
+			board[j][i] = SPACE;
+		}
+	}
+}
 
 int Position(int x, int y)
 {
@@ -67,14 +79,29 @@ int drawStone(int x, int y, int count)
 	}
 }
 
-int printMenu()
+int printRule()
 {
-	printf("[오목]\n\n");
+	printf("[오목 규칙]\n\n");
 	printf("1. 흑과 백이 번갈아가면서 돌을 둔다.\n\n");
 	printf("2. 한쪽이 가로, 세로, 대각선으로 5개를 연결하면 게임 종료\n\n");
-	printf("[Enter] 게임 시작");
+	printf("[Enter] 메뉴로 돌아가기");
 	_getch();
-	system("cls");
+}
+
+int printMenu()
+{
+	int input;
+	printf("[오목]\n\n");
+	printf("1. 게임 시작\n\n");
+	printf("2. 게임 규칙\n\n");
+	printf("3. 게임 종료\n\n");
+	scanf_s("%d", &input);
+	switch (input)
+	{
+	case 1:	system("cls"); play();
+	case 2:	system("cls"); printRule(); system("cls"); printMenu();
+	case 3: return 0;
+	}
 }
 
 int checkWin(int x, int y)
@@ -104,7 +131,7 @@ int checkWin(int x, int y)
 			count++;
 		}
 
-		if (count >= 5) return 1;
+		if (count >= 2) return 1;
 	}
 	return 0;
 }
@@ -114,22 +141,36 @@ int printResult(int count)
 	if (count % 2 == 1)
 	{
 		Position(0, 20);
-		printf("\n흑 승리! 게임종료\n");
+		printf("\n흑 승리! [Enter]\n");
 	}
 	else
 	{
 		Position(0, 20);
-		printf("\n백 승리! 게임 종료\n");
+		printf("\n백 승리! [Enter]\n");
 	}
 }
 
-int main()
+int replay()
+{
+	int q = 0;
+	printf("\n");
+	printf("1. 게임 재시작\n");
+	printf("2. 메뉴로\n");
+	int a = 0;
+	scanf_s("%d", &a);
+
+	switch (a)
+	{
+	case 1: system("cls");  play(); break;
+	case 2: system("cls");  printMenu(); break;
+	}
+}
+
+int play()
 {
 	int x, y;
 	int count = 1;
 	int input = 0;
-
-	// printMenu();
 
 	drawMap();
 
@@ -146,18 +187,10 @@ int main()
 		}
 		printf("x y 값을 입력해주세요.[x y]\n");
 		printf("\r                                 \r");
-		
-		if (scanf_s("%d %d", &x, &y) != 2)
-		{
-			break;
-		}
-		else
-		{
-			continue;
-		}
-		
-		x-=1; y-=1;
-		
+		scanf_s("%d %d", &x, &y);
+
+		x -= 1; y -= 1;
+
 		if (x < 0 || y < 0 || x >= SIZE || y >= SIZE)
 		{
 			Position(0, 20);
@@ -165,22 +198,32 @@ int main()
 			_getch();
 			continue;
 		}
-		if (board[y][x] !=0)
+		if (board[y][x] != 0)
 		{
 			Position(0, 20);
 			printf("이미 돌이 놓여있습니다! [Enter]");
 			_getch();
 			continue;
 		}
-		
-		drawStone(x, y, count);	
 
-		if(checkWin(x, y))
+		drawStone(x, y, count);
+
+		if (checkWin(x, y))
 		{
 			printResult(count);
+			_getch();
+			initialize();
+			replay();
 			break;
 		}
 
 		count++;
 	}
+}
+
+int main()
+{
+	printMenu();
+
+	return 0;
 }
