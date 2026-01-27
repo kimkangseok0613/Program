@@ -1,9 +1,12 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Administrator\\Desktop\\Program\\Program\\",
+  "WorkspaceRootPath": "C:\\Users\\User\\Desktop\\Program\\Program\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{42965A0D-749D-4DB3-86DB-41BC6CA5EA3D}|..\\Gomoku\\Gomoku.vcxproj|C:\\Users\\Administrator\\Desktop\\Program\\Gomoku\\Source.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{42965A0D-749D-4DB3-86DB-41BC6CA5EA3D}|..\\Gomoku\\Gomoku.vcxproj|C:\\Users\\User\\Desktop\\Program\\Gomoku\\Source.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Administrator\\Desktop\\Program\\Gomoku\\Source.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -13,20 +16,35 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Source.c",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\Program\\Gomoku\\Source.c",
+              "DocumentMoniker": "C:\\Users\\User\\Desktop\\Program\\Gomoku\\Source.c",
               "RelativeDocumentMoniker": "..\\Gomoku\\Source.c",
-              "ToolTip": "C:\\Users\\Administrator\\Desktop\\Program\\Gomoku\\Source.c",
+              "ToolTip": "C:\\Users\\User\\Desktop\\Program\\Gomoku\\Source.c",
               "RelativeToolTip": "..\\Gomoku\\Source.c",
-              "ViewState": "AgIAAFsAAAAAAAAAAAAEwJoAAAALAAAAAAAAAA==",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAQwFEAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2026-01-26T11:06:00.655Z",
+              "WhenOpened": "2026-01-27T13:49:04.192Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Source.c",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\Program\\Gomoku\\Source.c",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\Administrator\\Desktop\\Program\\Gomoku\\Source.c",
+              "ToolTip": "C:\\Users\\Administrator\\Desktop\\Program\\Gomoku\\Source.c",
+              "RelativeToolTip": "..\\..\\..\\..\\Administrator\\Desktop\\Program\\Gomoku\\Source.c",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2026-01-26T11:06:00.655Z"
             }
           ]
         }
