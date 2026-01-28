@@ -10,22 +10,25 @@
 
 int board[SIZE][SIZE] = { 0 };
 
+int play();
+
 int initialize()
 {
     for (int i = 0; i < SIZE; i++)
     {
         for (int j = 0; j < SIZE; j++)
         {
-            board[i][j] = SPACE;   // 인덱스 순서 통일 (i=row, j=col)
+            board[j][i] = SPACE;
         }
     }
     return 0;
 }
 
-int Position(int x, int y)
+int position(int x, int y)
 {
     COORD pos = { x, y };
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+    return 0;
 }
 
 int mapX(int x) { return 4 + 2 * x; }
@@ -33,7 +36,7 @@ int mapY(int y) { return 2 + y; }
 
 int drawMap()
 {
-    Position(4, 1);
+    position(4, 1);
     for (int i = 0; i < SIZE; i++)
     {
         if (i < 9)
@@ -48,14 +51,14 @@ int drawMap()
 
     for (int i = 0; i < SIZE; i++)
     {
-        Position(1, mapY(i));
+        position(1, mapY(i));
 
         printf("%d", i + 1);
     }
 
     for (int i = 0; i < SIZE; i++)
     {
-        Position(4, mapY(i));
+        position(4, mapY(i));
 
         for (int j = 0; j < SIZE; j++)
         {
@@ -67,7 +70,7 @@ int drawMap()
 
 int drawStone(int x, int y, int count)
 {
-    Position(mapX(x), mapY(y));
+    position(mapX(x), mapY(y));
 
     if (count % 2 == 1)
     {
@@ -85,14 +88,12 @@ int drawStone(int x, int y, int count)
 int printRule()
 {
     printf("[규칙]\n\n");
-    printf("1. 흑(선공)과 백(후공)이 번갈아가며 돌을 둡니다.\n\n");
-    printf("2. 가로, 세로, 대각선으로 5개를 먼저 만드는 쪽이 승리합니다.\n\n");
+    printf("1. 흑돌이 중앙(8,8)에 돌을 놓은 상태로 번갈아가며 돌을 둡니다.\n\n");
+    printf("2. 가로, 세로, 대각선으로 5개를 먼저 연결하면 승리합니다.\n\n");
     printf("[Enter] 키를 눌러 메뉴로 돌아갑니다.");
     _getch();
     return 0;
 }
-
-int play();
 
 int printMenu()
 {
@@ -149,7 +150,6 @@ int checkWin(int x, int y)
     {
         int count = 1;
 
-        // 한 방향으로
         for (int i = 1; i < 5; i++)
         {
             int nextX = x + dx[d] * i;
@@ -159,7 +159,6 @@ int checkWin(int x, int y)
             count++;
         }
 
-        // 반대 방향으로
         for (int i = 1; i < 5; i++)
         {
             int nextX = x - dx[d] * i;
@@ -169,14 +168,14 @@ int checkWin(int x, int y)
             count++;
         }
 
-        if (count >= 2) return 1;
+        if (count >= 5) return 1;
     }
     return 0;
 }
 
 int printResult(int count)
 {
-    Position(0, 20);
+    position(0, 20);
     if (count % 2 == 1)
     {
         printf("\n흑 승리! [Enter]\n");
@@ -192,9 +191,9 @@ int replay()
 {
     int a = 0;
 
-    Position(0, 22);
-    printf("\n1. 다시 하기\n");
-    printf("2. 메뉴로 돌아가기\n");
+    position(0, 22);
+    printf("\nPress 1. 게임을 다시 시작합니다.\n");
+    printf("Any key. 메뉴로 돌아갑니다.\n\n");
     printf("선택: ");
 
     scanf_s("%d", &a);
@@ -205,7 +204,7 @@ int replay()
         system("cls");
         play();
     }
-    // 2번 또는 잘못된 입력 → 그냥 return → 메뉴로 복귀
+
     return 0;
 }
 
@@ -216,13 +215,15 @@ int play()
 
     drawMap();
 
+    drawStone(7, 7,count);
+    count += 1;
+
     while (1)
     {
-        // 이전 메시지 영역 지우기
-        Position(0, 17);
+        position(0, 17);
         printf("                                          \n                                          \r");
 
-        Position(0, 18);
+        position(0, 18);
         if (count % 2 == 1)
         {
             printf("흑의 차례입니다.\n");
@@ -232,11 +233,11 @@ int play()
             printf("백의 차례입니다.\n");
         }
         printf("x y 값을 입력하세요 (1~15)\n");
-        printf("\r                                      \r");
+        printf("\r                                                  \r");
 
         if (scanf_s("%d %d", &x, &y) != 2)
         {
-            Position(0, 20);
+            position(0, 20);
             printf("숫자 두 개를 입력해주세요! [Enter]");
             while (getchar() != '\n');
             _getch();
@@ -248,7 +249,7 @@ int play()
 
         if (x < 0 || y < 0 || x >= SIZE || y >= SIZE)
         {
-            Position(0, 20);
+            position(0, 20);
             printf("범위를 벗어났습니다! [Enter]");
             _getch();
             continue;
@@ -256,7 +257,7 @@ int play()
 
         if (board[y][x] != SPACE)
         {
-            Position(0, 20);
+            position(0, 20);
             printf("이미 둔 자리입니다! [Enter]");
             _getch();
             continue;
@@ -280,5 +281,6 @@ int play()
 int main()
 {
     printMenu();
+
     return 0;
 }
