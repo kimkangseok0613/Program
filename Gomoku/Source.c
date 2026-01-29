@@ -89,7 +89,12 @@ int printRule()
 {
     printf("[규칙]\n\n");
     printf("1. 흑돌이 중앙(8,8)에 돌을 놓은 상태로 번갈아가며 돌을 둡니다.\n\n");
-    printf("2. 가로, 세로, 대각선으로 5개를 먼저 연결하면 승리합니다.\n\n");
+    printf("2. 가로, 세로, 대각선으로 5개를 먼저 일직선으로 연결하면 승리합니다.\n\n");
+    printf("[금수]\n");
+    printf("[흑돌은 33, 44, 6목을 둘 수 없다.]\n\n");
+    printf("3 3 : 3(열린 3)이 동시에 두 개 이상 만들어져, 한 수를 더 두면 4-3이 되는 자리.\n\n");
+    printf("4 4 : 4(열린 4)가 동시에 두 개 이상 만들어지는 자리.\n\n");
+    printf("6목 : 6개 이상의 돌이 일렬로 나란히 놓이는 것.\n\n");
     printf("[Enter] 키를 눌러 메뉴로 돌아갑니다.");
     _getch();
     return 0;
@@ -143,17 +148,17 @@ int printMenu()
 int checkWin(int x, int y)
 {
     int color = board[y][x];
-    int dx[4] = { 1, 0, 1, 1 };
-    int dy[4] = { 0, 1, 1, -1 };
+    int moveX[4] = { 1, 0, 1, 1 };
+    int moveY[4] = { 0, 1, 1, -1 };
 
-    for (int d = 0; d < 4; d++)
+    for (int m = 0; m < 4; m++)
     {
         int count = 1;
 
         for (int i = 1; i < 5; i++)
         {
-            int nextX = x + dx[d] * i;
-            int nextY = y + dy[d] * i;
+            int nextX = x + moveX[m] * i;
+            int nextY = y + moveY[m] * i;
             if (nextX < 0 || nextY < 0 || nextX >= SIZE || nextY >= SIZE) break;
             if (board[nextY][nextX] != color) break;
             count++;
@@ -161,14 +166,74 @@ int checkWin(int x, int y)
 
         for (int i = 1; i < 5; i++)
         {
-            int nextX = x - dx[d] * i;
-            int nextY = y - dy[d] * i;
+            int nextX = x - moveX[m] * i;
+            int nextY = y - moveY[m] * i;
             if (nextX < 0 || nextY < 0 || nextX >= SIZE || nextY >= SIZE) break;
             if (board[nextY][nextX] != color) break;
             count++;
         }
 
         if (count >= 5) return 1;
+    }
+    return 0;
+}
+
+int countLine(int x, int y, int moveX, int moveY)
+{
+    int count = 0;
+    int nextX = x + moveX;
+    int nextY = x + moveY;
+
+    while (nextX >= 0 && nextY >= 0 && nextX < SIZE && nextY < SIZE && board[nextY][nextX] == BLACK)
+    {
+        count++;
+        nextX = nextX + moveX;
+        nextY = nextY + moveY;
+    }
+    return count;
+}
+
+int isOpen(int x, int y)
+{
+    return (x >= 0 && y >= 0 && x < SIZE && y < SIZE && board[y][x] == SPACE);
+}
+
+int isOpenThree(int x, int y, int moveX, int moveY)
+{
+    int left = countLine(x, y, -moveX, -moveY);
+    int right = countLine(x, y, moveX, moveY);
+    if (left + right != 2)
+    {
+        return 0;
+    }
+
+    int leftX = x - moveX * (left + 1);
+    int leftY = y - moveY * (left + 1);
+    int rightX = x + moveX * (right + 1);
+    int rightY = y + moveY * (right + 1);
+
+    return isOpen(leftX, leftY) || isOpen(rightX, rightY);
+}
+
+int isOpenFour()
+{
+
+}
+
+int cantPlace(int x, int y)
+{
+    int moveX[4] = { 1, 0, 1, 1 };
+    int moveY[4] = { 0, 1, 1, -1 };
+
+    board[y][x] = BLACK;
+
+    for (int m = 0; m < 4; m++)
+    {
+        if ((countLine(x, y, moveX[m], moveY[m]) + countLine(x, y, -moveX[m], -moveY[m]) + 1)>=6)
+        {
+            board[y][x] = SPACE;
+            return 1;
+        }
     }
     return 0;
 }
@@ -259,6 +324,14 @@ int play()
         {
             position(0, 20);
             printf("이미 둔 자리입니다! [Enter]");
+            _getch();
+            continue;
+        }
+
+        if (count % 2 == 1 && cantPlace(x, y))
+        {
+            position(0, 20);
+            printf("금수입니다. 다시 두세요. [Enter]");
             _getch();
             continue;
         }
