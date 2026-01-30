@@ -182,13 +182,13 @@ int countLine(int x, int y, int moveX, int moveY)
 {
     int count = 0;
     int nextX = x + moveX;
-    int nextY = x + moveY;
+    int nextY = y + moveY;
 
     while (nextX >= 0 && nextY >= 0 && nextX < SIZE && nextY < SIZE && board[nextY][nextX] == BLACK)
     {
         count++;
-        nextX = nextX + moveX;
-        nextY = nextY + moveY;
+        nextX += moveX;
+        nextY += moveY;
     }
     return count;
 }
@@ -202,26 +202,20 @@ int isOpenThree(int x, int y, int moveX, int moveY)
 {
     int left = countLine(x, y, -moveX, -moveY);
     int right = countLine(x, y, moveX, moveY);
-    if (left + right != 2)
-    {
-        return 0;
-    }
+    if (left + right != 2) return 0;    
 
     int leftX = x - moveX * (left + 1);
     int leftY = y - moveY * (left + 1);
     int rightX = x + moveX * (right + 1);
     int rightY = y + moveY * (right + 1);
 
-    return isOpen(leftX, leftY) || isOpen(rightX, rightY);
-}
-
-int isOpenFour()
-{
-
+    return isOpen(leftX, leftY) && isOpen(rightX, rightY);
 }
 
 int cantPlace(int x, int y)
 {
+    int three = 0;
+
     int moveX[4] = { 1, 0, 1, 1 };
     int moveY[4] = { 0, 1, 1, -1 };
 
@@ -234,7 +228,14 @@ int cantPlace(int x, int y)
             board[y][x] = SPACE;
             return 1;
         }
+
+        if (isOpenThree(x, y, moveX[m], moveY[m]))three++;
     }
+
+    board[y][x] = SPACE;
+
+    if (three >= 2)return 1;
+
     return 0;
 }
 
@@ -261,8 +262,11 @@ int replay()
     printf("Any key. 메뉴로 돌아갑니다.\n\n");
     printf("선택: ");
 
-    scanf_s("%d", &a);
-    while (getchar() != '\n');
+    if (scanf_s("%d", &a) != 1)
+    {
+        while (getchar() != '\n');
+        return 0;
+    }
 
     if (a == 1)
     {
