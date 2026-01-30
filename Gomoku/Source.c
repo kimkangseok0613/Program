@@ -53,7 +53,7 @@ int drawMap()
     {
         position(1, mapY(i));
 
-        printf("%d", i + 1);
+        printf("%2d", i + 1);
     }
 
     for (int i = 0; i < SIZE; i++)
@@ -92,8 +92,8 @@ int printRule()
     printf("2. 가로, 세로, 대각선으로 5개를 먼저 일직선으로 연결하면 승리합니다.\n\n");
     printf("[금수]\n");
     printf("[흑돌은 33, 44, 6목을 둘 수 없다.]\n\n");
-    printf("3 3 : 3(열린 3)이 동시에 두 개 이상 만들어져, 한 수를 더 두면 4-3이 되는 자리.\n\n");
-    printf("4 4 : 4(열린 4)가 동시에 두 개 이상 만들어지는 자리.\n\n");
+    printf("3 3 : 연결된 열린3이 동시에 두 개 이상 만들어지는 수\n\n");
+    printf("4 4 : 연결된 4가 동시에 두 개 이상 만들어지는 수\n\n");
     printf("6목 : 6개 이상의 돌이 일렬로 나란히 놓이는 것.\n\n");
     printf("[Enter] 키를 눌러 메뉴로 돌아갑니다.");
     _getch();
@@ -116,7 +116,7 @@ int printMenu()
         if (scanf_s("%d", &input) != 1)
         {
             while (getchar() != '\n');
-            printf("\n1~3 사이 숫자를 입력하세요.\n[Enter]");
+            printf("\n1~3 사이 숫자를 입력하세요. [Enter]");
             _getch();
             continue;
         }
@@ -212,9 +212,25 @@ int isOpenThree(int x, int y, int moveX, int moveY)
     return isOpen(leftX, leftY) && isOpen(rightX, rightY);
 }
 
+int isOpenFour(int x, int y, int moveX, int moveY)
+{
+    int left = countLine(x, y, -moveX, -moveY);
+    int right = countLine(x, y, moveX, moveY);
+    if (left + right != 3) return 0;
+
+    int leftX = x - moveX * (left + 1);
+    int leftY = y - moveY * (left + 1);
+    int rightX = x + moveX * (right + 1);
+    int rightY = y + moveY * (right + 1);
+
+    return isOpen(leftX, leftY) || isOpen(rightX, rightY);
+}
+
 int cantPlace(int x, int y)
 {
-    int three = 0;
+    int threeStone = 0;
+    int fourStone = 0;
+    int spaceThree = 0;
 
     int moveX[4] = { 1, 0, 1, 1 };
     int moveY[4] = { 0, 1, 1, -1 };
@@ -229,12 +245,14 @@ int cantPlace(int x, int y)
             return 1;
         }
 
-        if (isOpenThree(x, y, moveX[m], moveY[m]))three++;
+        if (isOpenThree(x, y, moveX[m], moveY[m]))threeStone++;
+        if (isOpenFour(x, y, moveX[m], moveY[m]))fourStone++;
     }
 
     board[y][x] = SPACE;
 
-    if (three >= 2)return 1;
+    if (threeStone >= 2)return 1;
+    if (fourStone >= 2)return 1;
 
     return 0;
 }
@@ -351,12 +369,19 @@ int play()
             return 0;
         }
 
-        count++;
+        //count++;
     }
+}
+
+int consoleSize()
+{
+    system("mode con: cols=80 lines=28");
 }
 
 int main()
 {
+    consoleSize();
+
     printMenu();
 
     return 0;
