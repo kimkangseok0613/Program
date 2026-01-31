@@ -89,9 +89,8 @@ int printRule()
 {
     printf("[규칙]\n\n");
     printf("1. 흑돌이 중앙(8,8)에 돌을 놓은 상태로 번갈아가며 돌을 둡니다.\n\n");
-    printf("2. 가로, 세로, 대각선으로 5개를 먼저 일직선으로 연결하면 승리합니다.\n\n");
-    printf("[금수]\n");
-    printf("[흑돌은 33, 44, 6목을 둘 수 없다.]\n\n");
+    printf("2. 가로, 세로, 대각선으로 5개를 먼저 일직선으로 연결하면 승리합니다.\n\n\n");
+    printf("[금수] 흑돌은 33, 44, 6목을 둘 수 없다.\n\n");
     printf("3 3 : 연결된 열린3이 동시에 두 개 이상 만들어지는 수\n\n");
     printf("4 4 : 연결된 4가 동시에 두 개 이상 만들어지는 수\n\n");
     printf("6목 : 6개 이상의 돌이 일렬로 나란히 놓이는 것.\n\n");
@@ -173,7 +172,14 @@ int checkWin(int x, int y)
             count++;
         }
 
-        if (count >= 5) return 1;
+        if (color == BLACK)
+        {
+            if (count == 5) return 1;
+        }
+        else
+        {
+            if (count >= 5) return 1;
+        }
     }
     return 0;
 }
@@ -273,6 +279,7 @@ int printResult(int count)
 
 int replay()
 {
+    initialize();
     int a = 0;
 
     position(0, 22);
@@ -308,7 +315,7 @@ int play()
     while (1)
     {
         position(0, 17);
-        printf("                                          \n                                          \r");
+        printf("%-80s", "");
 
         position(0, 18);
         if (count % 2 == 1)
@@ -319,7 +326,7 @@ int play()
         {
             printf("백의 차례입니다.\n");
         }
-        printf("x y 값을 입력하세요 (1~15)\n");
+        printf("x y 값을 입력하세요 (1~15) 0 0 : 항복\n");
         printf("\r                                                  \r");
 
         if (scanf_s("%d %d", &x, &y) != 2)
@@ -331,6 +338,20 @@ int play()
             continue;
         }
         while (getchar() != '\n');
+
+        if (x == 0 && y == 0)
+        {
+            position(0, 20);
+            if (count % 2 == 1)
+                printf("\n흑이 항복했습니다. 백 승리! [Enter]\n");
+            else
+                printf("\n백이 항복했습니다. 흑 승리! [Enter]\n");
+
+            _getch();
+            replay();
+            return 0;
+        }
+
 
         x -= 1; y -= 1;
 
@@ -364,23 +385,18 @@ int play()
         {
             printResult(count);
             _getch();
-            initialize();
+            
             replay();
             return 0;
         }
 
-        //count++;
+        count++;
     }
-}
-
-int consoleSize()
-{
-    system("mode con: cols=80 lines=28");
 }
 
 int main()
 {
-    consoleSize();
+    system("mode con: cols=80 lines=30");
 
     printMenu();
 
