@@ -314,6 +314,7 @@ int play()
 {
     int x, y;
     int count = 1;
+    char input[32];
 
     drawMap();
 
@@ -337,15 +338,15 @@ int play()
         printf("x y 값을 입력하세요 (1~15), 0 0 : 항복\n");
         printf("\r                                                  \r");
 
-        if (scanf_s("%d %d", &x, &y) != 2)
+        fgets(input, sizeof(input), stdin);
+
+        if (sscanf_s(input, "%d %d", &x, &y) != 2)
         {
             position(0, 20);
             printf("숫자 두 개를 입력해주세요! [Enter]");
-            while (getchar() != '\n');
             _getch();
             continue;
         }
-        while (getchar() != '\n');
 
         if (x == 0 && y == 0)
         {
