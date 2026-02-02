@@ -12,7 +12,7 @@ int board[SIZE][SIZE] = { 0 };
 
 int play();
 
-int initialize()
+void initialize()
 {
     for (int i = 0; i < SIZE; i++)
     {
@@ -21,7 +21,6 @@ int initialize()
             board[j][i] = SPACE;
         }
     }
-    return 0;
 }
 
 int position(int x, int y)
@@ -36,9 +35,11 @@ int mapY(int y) { return 2 + y; }
 
 int drawMap()
 {
+
     position(4, 1);
     for (int i = 0; i < SIZE; i++)
     {
+    
         if (i < 9)
         {
             printf("%d ", i + 1);
@@ -65,6 +66,7 @@ int drawMap()
             printf("┼ ");
         }
     }
+
     return 0;
 }
 
@@ -74,12 +76,12 @@ int drawStone(int x, int y, int count)
 
     if (count % 2 == 1)
     {
-        printf("○"); // 흑
+        printf("●"); // 흑
         board[y][x] = BLACK;
     }
     else
     {
-        printf("●"); // 백
+        printf("○"); // 백
         board[y][x] = WHITE;
     }
     return 0;
@@ -93,7 +95,7 @@ int printRule()
     printf("[금수] 흑돌은 33, 44, 6목을 둘 수 없다.\n\n");
     printf("3 3 : 연결된 열린3이 동시에 두 개 이상 만들어지는 수\n\n");
     printf("4 4 : 연결된 4가 동시에 두 개 이상 만들어지는 수\n\n");
-    printf("6목 : 6개 이상의 돌이 일렬로 나란히 놓이는 것.\n\n");
+    printf("6목 : 6개 이상의 돌이 일렬로 나란히 놓이는 것.\n\n\n");
     printf("[Enter] 키를 눌러 메뉴로 돌아갑니다.");
     _getch();
     return 0;
@@ -137,7 +139,7 @@ int printMenu()
             return 0;
 
         default:
-            printf("\n잘못된 선택입니다. [Enter]");
+            printf("\n1~3 사이 숫자를 입력하세요. [Enter]");
             _getch();
             break;
         }
@@ -236,7 +238,6 @@ int cantPlace(int x, int y)
 {
     int threeStone = 0;
     int fourStone = 0;
-    int spaceThree = 0;
 
     int moveX[4] = { 1, 0, 1, 1 };
     int moveY[4] = { 0, 1, 1, -1 };
@@ -284,8 +285,9 @@ int replay()
 
     position(0, 22);
     printf("\nPress 1. 게임을 다시 시작합니다.\n");
-    printf("Any key. 메뉴로 돌아갑니다.\n\n");
-    printf("선택: ");
+    printf("Press 2. 게임을 종료합니다.\n");
+    printf("Any key. 메뉴로 돌아갑니다.\n");
+    printf("\n선택: ");
 
     if (scanf_s("%d", &a) != 1)
     {
@@ -298,7 +300,13 @@ int replay()
         system("cls");
         play();
     }
+    
+    if (a == 2)
+    {
+        exit(0);
+    }
 
+    
     return 0;
 }
 
@@ -326,7 +334,7 @@ int play()
         {
             printf("백의 차례입니다.\n");
         }
-        printf("x y 값을 입력하세요 (1~15) 0 0 : 항복\n");
+        printf("x y 값을 입력하세요 (1~15), 0 0 : 항복\n");
         printf("\r                                                  \r");
 
         if (scanf_s("%d %d", &x, &y) != 2)
@@ -351,7 +359,6 @@ int play()
             replay();
             return 0;
         }
-
 
         x -= 1; y -= 1;
 
@@ -394,9 +401,16 @@ int play()
     }
 }
 
-int main()
+void setConsoleEffect()
 {
     system("mode con: cols=80 lines=30");
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+    system("color F0");
+}
+
+int main()
+{
+    setConsoleEffect();
 
     printMenu();
 
