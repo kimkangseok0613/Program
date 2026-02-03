@@ -3,16 +3,16 @@
 #include <Windows.h>
 #include <conio.h>
 
-#define SIZE 15
-#define BLACK 1
-#define WHITE 2
-#define SPACE 0
+#define SIZE 15 // 바둑판 15X15
+#define BLACK 1 // 흑돌
+#define WHITE 2 // 백돌
+#define SPACE 0 // 빈곳
 
 int board[SIZE][SIZE] = { 0 };
 
 int play();
 
-void initialize()
+void initialize() // 돌 초기화
 {
     for (int i = 0; i < SIZE; i++)
     {
@@ -23,17 +23,18 @@ void initialize()
     }
 }
 
-int position(int x, int y)
+int position(int x, int y) // 위치 변경
 {
     COORD pos = { x, y };
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
     return 0;
 }
 
+// 돌 두는 기준
 int mapX(int x) { return 4 + 2 * x; }
 int mapY(int y) { return 2 + y; }
 
-int drawMap()
+int drawMap() // 맵 그리기
 {
 
     position(4, 1);
@@ -70,7 +71,7 @@ int drawMap()
     return 0;
 }
 
-int drawStone(int x, int y, int count)
+int drawStone(int x, int y, int count) // 돌 그리기
 {
     position(mapX(x), mapY(y));
 
@@ -87,7 +88,7 @@ int drawStone(int x, int y, int count)
     return 0;
 }
 
-int printRule()
+int printRule() // 규칙
 {
     printf("[규칙]\n\n");
     printf("1. 흑돌이 중앙(8,8)에 돌을 놓은 상태로 번갈아가며 돌을 둡니다.\n\n");
@@ -101,7 +102,7 @@ int printRule()
     return 0;
 }
 
-int printMenu()
+int printMenu() // 메뉴
 {
     int input;
 
@@ -146,7 +147,7 @@ int printMenu()
     }
 }
 
-int checkWin(int x, int y)
+int checkWin(int x, int y) // 승리 판별
 {
     int color = board[y][x];
     int moveX[4] = { 1, 0, 1, 1 };
@@ -186,7 +187,7 @@ int checkWin(int x, int y)
     return 0;
 }
 
-int countLine(int x, int y, int moveX, int moveY)
+int countLine(int x, int y, int moveX, int moveY) // 줄 확인
 {
     int count = 0;
     int nextX = x + moveX;
@@ -201,12 +202,12 @@ int countLine(int x, int y, int moveX, int moveY)
     return count;
 }
 
-int isOpen(int x, int y)
+int isOpen(int x, int y) // 끝 부분 비어있는지 판별
 {
     return (x >= 0 && y >= 0 && x < SIZE && y < SIZE && board[y][x] == SPACE);
 }
 
-int isOpenThree(int x, int y, int moveX, int moveY)
+int isOpenThree(int x, int y, int moveX, int moveY) // 33 판별
 {
     int left = countLine(x, y, -moveX, -moveY);
     int right = countLine(x, y, moveX, moveY);
@@ -220,7 +221,7 @@ int isOpenThree(int x, int y, int moveX, int moveY)
     return isOpen(leftX, leftY) && isOpen(rightX, rightY);
 }
 
-int isOpenFour(int x, int y, int moveX, int moveY)
+int isOpenFour(int x, int y, int moveX, int moveY) // 44 판별
 {
     int left = countLine(x, y, -moveX, -moveY);
     int right = countLine(x, y, moveX, moveY);
@@ -234,7 +235,7 @@ int isOpenFour(int x, int y, int moveX, int moveY)
     return isOpen(leftX, leftY) || isOpen(rightX, rightY);
 }
 
-int cantPlace(int x, int y)
+int cantPlace(int x, int y) // 금수 판별
 {
     int threeStone = 0;
     int fourStone = 0;
@@ -246,7 +247,7 @@ int cantPlace(int x, int y)
 
     for (int m = 0; m < 4; m++)
     {
-        if ((countLine(x, y, moveX[m], moveY[m]) + countLine(x, y, -moveX[m], -moveY[m]) + 1)>=6)
+        if ((countLine(x, y, moveX[m], moveY[m]) + countLine(x, y, -moveX[m], -moveY[m]) + 1) >= 6) // 6목 판별
         {
             board[y][x] = SPACE;
             return 1;
@@ -264,21 +265,21 @@ int cantPlace(int x, int y)
     return 0;
 }
 
-int printResult(int count)
+int printResult(int count) // 결과 출력
 {
     position(0, 20);
     if (count % 2 == 1)
     {
-        printf("\n흑 승리! [Enter]\n");
+        printf("\n흑돌 승리! [Enter]\n");
     }
     else
     {
-        printf("\n백 승리! [Enter]\n");
+        printf("\n백돌 승리! [Enter]\n");
     }
     return 0;
 }
 
-int replay()
+int replay() // 게임 재시작
 {
     initialize();
     int a = 0;
@@ -310,7 +311,7 @@ int replay()
     return 0;
 }
 
-int play()
+int play() // 본 게임
 {
     int x, y;
     int count = 1;
@@ -329,11 +330,11 @@ int play()
         position(0, 18);
         if (count % 2 == 1)
         {
-            printf("흑의 차례입니다.\n");
+            printf("흑돌의 차례입니다.\n");
         }
         else
         {
-            printf("백의 차례입니다.\n");
+            printf("백돌의 차례입니다.\n");
         }
         printf("x y 값을 입력하세요 (1~15), 0 0 : 항복\n");
         printf("\r                                                  \r");
@@ -352,9 +353,9 @@ int play()
         {
             position(0, 20);
             if (count % 2 == 1)
-                printf("\n흑이 항복했습니다. 백 승리! [Enter]\n");
+                printf("\n흑돌이 항복했습니다. 백돌 승리! [Enter]\n");
             else
-                printf("\n백이 항복했습니다. 흑 승리! [Enter]\n");
+                printf("\n백돌이 항복했습니다. 흑돌 승리! [Enter]\n");
 
             _getch();
             replay();
@@ -402,7 +403,7 @@ int play()
     }
 }
 
-void setConsoleEffect()
+void setConsoleEffect() // 콘솔창 꾸미기
 {
     system("mode con: cols=80 lines=30");
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
